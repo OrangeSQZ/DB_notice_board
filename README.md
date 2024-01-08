@@ -1,2 +1,15 @@
-# DB_-notice_board
-DB_ notice_board
+# DB_notice_board
+<h1>DB를 활용한 게시판 기능 구현</h1>
+<hr>
+<h2>게시판 기획</h2>
+Figma를 활용하여 아이디어를 정리함
+
+<hr>
+<h2>구현 결과</h2>
+<h3>기능 #1</h3>
+
+<h3>기능 #2</h3>
+
+<h3>기능 #3</h3>
+
+<h3>기능 #n</h3>
