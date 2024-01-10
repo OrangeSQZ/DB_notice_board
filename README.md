@@ -32,7 +32,10 @@
 <h1>취약점 분석</h1>
 <h2>페이지 별 발견한 취약점 및 공격 결과</h2>
 <h3>index.php</h3>
-
+```php
+$searchQuery = $conn->real_escape_string($searchQuery);
+$searchCondition = "WHERE $searchOption LIKE '%$searchQuery%'";
+```
 <h3>read.php</h3>
 
 <h3>write.php</h3>
