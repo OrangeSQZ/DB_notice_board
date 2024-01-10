@@ -11,6 +11,10 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// 검색어와 옵션을 가져오기
+$searchOption = isset($_GET['searchOption']) ? $_GET['searchOption'] : 'title';
+$searchQuery = isset($_GET['searchQuery']) ? $_GET['searchQuery'] : '';
+
 // 게시글 조회
 $sql = "SELECT * FROM posts ORDER BY created_at DESC";
 $result = $conn->query($sql);
@@ -28,8 +32,15 @@ $totalPosts = $result->num_rows;
 // 총 페이지 수 계산
 $totalPages = ceil($totalPosts / $postsPerPage);
 
+// 검색어가 입력되었을 때 검색 쿼리 생성
+$searchCondition = '';
+if (!empty($searchQuery)) {
+    $searchQuery = $conn->real_escape_string($searchQuery);
+    $searchCondition = "WHERE $searchOption LIKE '%$searchQuery%'";
+}
+
 // 글 목록 출력
-$sql = "SELECT * FROM posts ORDER BY created_at DESC LIMIT $offset, $postsPerPage";
+$sql = "SELECT * FROM posts $searchCondition ORDER BY created_at DESC LIMIT $offset, $postsPerPage";
 $result = $conn->query($sql);
 ?>
 
@@ -72,10 +83,10 @@ $result = $conn->query($sql);
 <div>
     <form action="index.php" method="get">
         <select name="searchOption">
-            <option value="title">글 제목</option>
-            <option value="author">작성자</option>
+            <option value="title" <?php echo ($searchOption === 'title') ? 'selected' : ''; ?>>글 제목</option>
+            <option value="author" <?php echo ($searchOption === 'author') ? 'selected' : ''; ?>>작성자</option>
         </select>
-        <input type="text" name="searchQuery" placeholder="검색어 입력">
+        <input type="text" name="searchQuery" placeholder="검색어 입력" value="<?php echo $searchQuery; ?>">
         <input type="submit" value="검색">
     </form>
     <a href="write.php">글 작성</a>
